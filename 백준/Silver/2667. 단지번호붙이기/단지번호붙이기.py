@@ -1,3 +1,5 @@
+# dfs
+
 N = int(input()) # 첫번째 줄에는 지도의 크기가 입력됩니다.
 
 original_map = []
@@ -18,10 +20,10 @@ def dfs(i,j):
         for _ in range(4): # 우 좌 하 상을 모두 돌기 위해서 for문을 사용합니다.
             dfs(i + dx[_], j + dy[_]) # count가 global이기 때문에 누적해서 합을 계산할 수 있습니다.
         return True# 갈 수 있는 우 좌 하 상를 재귀로 호출하고 return으로 함수를 끝냅니다. 최종적으로 같은 단지의 집을 모두 탐사하면 가장 먼저 호출한 dfs 실행이 종료됩니다.
-    return False # 방문한 정사각형에 집이 없으면 함수 종료합니다. if orginal_map[i][j] == 0
+    return False # 방문한 정사각형에 집이 없으면 함수 종료합니다. (if orginal_map[i][j] == 0)
 
-ans = []
-count = 0
+ans = [] # 각 단지 내 집의 수를 담을 리스트
+count = 0 # dfs를 통해 각 단지내 집의 수를 누적시킬 때 dfs 내에서 전역변수로 사용할 변수
 for i in range(N): # 0 ~ N-1, 좌표 i
     for j in range(N): # 좌표 j
         if dfs(i,j):
@@ -30,5 +32,5 @@ for i in range(N): # 0 ~ N-1, 좌표 i
 ans.sort() # 오름차순 정렬
 complex_count = len(ans) # 총 단지수 계산
 print(complex_count)
-for i,v in enumerate(ans):
+for i,v in enumerate(ans): # 캬..이 방법 조쿠나~!!
     print(v)
