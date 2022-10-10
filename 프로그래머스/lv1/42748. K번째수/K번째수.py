@@ -1,2 +1,2 @@
 def solution(array, commands):
-    return [sorted(array[command[0]-1:command[1]])[command[2]-1] for command in commands]
+    return  [sorted(array[start-1:end])[index-1] for start,end,index in commands]
