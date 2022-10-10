@@ -21,5 +21,9 @@ def solution(s):
     for w in s:
         if x < 0:
             break
-        x = x+1 if w=="(" else x-1 if w==")" else x
+        else:
+            if w == "(":
+                x += 1 
+            elif w == ")":
+                x -= 1
     return x==0
