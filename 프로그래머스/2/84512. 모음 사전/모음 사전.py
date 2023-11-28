@@ -4,7 +4,6 @@ def sum_of_equatorial_sequences(digit):
     return (5**digit - 1) // 4
 
 def solution(word):
-    character_list = ["A", "E", "I", "O", "U"]
     result = 0
     word = deque(word)
     checked_list_cnt = 0
