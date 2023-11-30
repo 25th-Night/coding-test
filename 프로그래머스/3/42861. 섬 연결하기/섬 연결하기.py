@@ -25,6 +25,6 @@ def solution(n, costs):
     for node1, node2, cost in costs:
         if get_parent(parent, node1) != get_parent(parent, node2):
             union_parent(parent, node1, node2)
-            answer += cost 
+            answer += cost
 
     return answer
