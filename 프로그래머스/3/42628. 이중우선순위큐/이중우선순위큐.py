@@ -1,4 +1,4 @@
-from heapq import heappop, heappush, nlargest, heapify
+from heapq import heappop, heappush
 from collections import deque
 
 def extract_number(operation):
