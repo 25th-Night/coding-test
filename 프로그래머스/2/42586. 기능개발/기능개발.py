@@ -1,24 +1,13 @@
+from collections import deque
+
 def solution(progresses, speeds):
+    ds = deque([-((p-100)//s) for p, s in zip(progresses, speeds)])
     answer = []
-    deploy_list = []
-    for progress, speed in zip(progresses, speeds):
-        if int((100-progress) / speed) == (100-progress) / speed:
-            deploy_list.append((100-progress) / speed)
-        else:
-            deploy_list.append(((100-progress) // speed)+1)
-    
-    last, cnt = 0, 0
-    
-    for deploy in deploy_list:
-        if last and deploy > last:
-            answer.append(cnt+1)
-            last, cnt = deploy, 0
-        elif last and deploy <= last:
-            
+    while ds:
+        current = ds.popleft()
+        cnt = 1
+        while ds and current >= ds[0]:
+            ds.popleft()
             cnt += 1
-        else:
-            last = max(last, deploy)
-    if last:
-        answer.append(cnt+1)
-    
+        answer.append(cnt)
     return answer
