@@ -1,17 +1,13 @@
+def calc(info, x, y):
+    if x < 1 or y < 1:
+        return 0
+    elif (x, y) in info:
+        return info[(x, y)]
+    else:
+        return info.setdefault((x, y), calc(info, x-1, y) + calc(info, x, y-1))
+
 def solution(m, n, puddles):
-    puddles = [[r-1, c-1] for r, c in puddles]
-    maps = [[1] * m for _ in range(n)]
-    for c, r in puddles:
-        if not r:
-            for i in range(c, m):
-                maps[r][i] = 0
-        elif not c:
-            for i in range(r, n):
-                maps[i][c] = 0
-        else:
-            maps[r][c] = 0
-    for i in range(1, n):
-        for j in range(1, m):
-            maps[i][j] = maps[i][j-1] + maps[i-1][j] if maps[i][j] else 0
-                
-    return maps[-1][-1] % 1000000007
+    info = dict([((2, 1), 1), ((1, 2), 1)])
+    for x, y in puddles:
+        info[(x, y)] = 0
+    return calc(info, m, n) % 1000000007
