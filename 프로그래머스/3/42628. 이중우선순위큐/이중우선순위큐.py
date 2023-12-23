@@ -1,32 +1,17 @@
-from heapq import heappop, heappush
+from heapq import heapify, heappop, heappush, nlargest, nsmallest
 from collections import deque
 
-def extract_number(operation):
-    return int(operation.split(" ")[-1])
-
 def solution(operations):
-    queue = []
-    operations = deque(operations)
-    
-    while operations:
-        operation = operations.popleft()
-        if operation.startswith("I"):
-            if not queue:
-                queue.append(extract_number(operation))
+    ops = deque(operations)
+    answer = []
+    while ops:
+        cmd, num = ops.popleft().split(" ")
+        if cmd == "I":
+            heappush(answer, int(num))
+        elif answer and cmd == "D":
+            if num == "-1":
+                heappop(answer)
             else:
-                heappush(queue, extract_number(operation))
-        elif operation.startswith("D"):
-            if operation[-2] == "-":
-                if len(queue) > 1:
-                    heappop(queue)
-                else:
-                    queue = []
-            else:
-                queue = queue[:-1]
-        
-    if not queue:
-        queue = [0, 0]
-    
-    queue.sort()
-    return [queue[-1], queue[0]]
-    
+                answer = nlargest(len(answer), answer)[1:]
+                heapify(answer)
+    return nlargest(1, answer) + nsmallest(1, answer) if answer else [0, 0]
