@@ -1,18 +1,32 @@
+def make_graph(wires, n):
+    graph = [[] for _ in range(n+1)]
+    for a, b in wires:
+        graph[a].append(b)
+        graph[b].append(a)
+    return graph
+
+def bfs(graph, visited, start):
+    cnt = 0
+    q = [start]
+    while q:
+        v = q.pop(0)
+        visited[v] = True
+        cnt += 1
+        if graph[v]:
+            for n in graph[v]:
+                if not visited[n]:
+                    q.append(n)
+    return cnt
+
 from copy import deepcopy
 
 def solution(n, wires):
-    diff_list = []
-
+    result = float("inf")
     for wire in wires:
-        new_wires = deepcopy(wires)
-        new_wires.remove(wire)
-        part_a = {wire[0]}
-        part_b = set()
-        while (part_a != part_b) :
-            part_b = deepcopy(part_a)
-            for wire in new_wires:
-                if (part_a & set(wire)):
-                    part_a |= set(wire)  
-        diff_list.append(abs((n - 2 * len(part_a))))
-
-    return min(diff_list)
+        visited = [False] * (n+1)
+        tmp = deepcopy(wires)
+        tmp.remove(wire)
+        graph = make_graph(tmp, n)
+        cnt = bfs(graph, visited, tmp[0][0])
+        result = min(result, abs(n - 2 * cnt))
+    return result
