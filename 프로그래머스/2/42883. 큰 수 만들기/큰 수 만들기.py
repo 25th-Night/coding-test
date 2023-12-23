@@ -1,18 +1,15 @@
 from collections import deque
 
 def solution(number, k):
-    result_number_length = len(number) - k
-    result = deque()
-    number_list = deque(number)
+    nums = deque(number)
+    stack = []
     
-    while number_list and k:
-        result.append(number_list.popleft())
-        while result and number_list and result[-1] < number_list[0] and k:
-            result.pop()
+    while nums and k:
+        while nums and stack and stack[-1] < nums[0] and k:
+            stack.pop()
             k -= 1
-    
+        stack.append(nums.popleft())
     if k:
-        result = list(result)[:-k]
+        stack = stack[:-k]
     
-    return "".join(result) + "".join(number_list)
-    
+    return "".join(stack + list(nums))
