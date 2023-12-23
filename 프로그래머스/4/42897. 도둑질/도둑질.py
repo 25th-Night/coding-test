@@ -1,12 +1,7 @@
 def solution(money):
-    dp1 = [0] * len(money)
-    dp1[0], dp1[1] = money[0], max(money[0], money[1])
-    for i in range(2, len(money)-1):
-        dp1[i] = max(dp1[i-1], dp1[i-2] + money[i])
-    
-    dp2 = [0] * len(money)
-    dp2[0], dp2[1] = 0, money[1]
-    for i in range(2, len(money)):
-        dp2[i] = max(dp2[i-1], dp2[i-2] + money[i])
-        
-    return max(max(dp1), max(dp2))
+    x1, y1, z1 = money[0], money[1], money[0] + money[2]
+    x2, y2, z2 = 0, money[1], money[2]
+    for m in money[3:]:
+        x1, y1, z1 = y1, z1, max(x1, y1) + m
+        x2, y2, z2 = y2, z2, max(x2, y2) + m
+    return max(x1, y1, y2, z2)
