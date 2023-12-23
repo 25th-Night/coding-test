@@ -1,18 +1,15 @@
 from collections import deque
 
 def solution(priorities, location):
-    priorities = [(idx, priority) for idx, priority in enumerate(priorities)]
-    
-    priorities = deque(priorities)
-    
-    executed = []
-    while priorities:
-        target_priority = priorities.popleft()
-        if any(target_priority[1] < priority[1] for priority in priorities):
-            priorities.append(target_priority)
+    ps = deque(priorities)
+    order = 1
+    while True:
+        c = ps.popleft()
+        if any(c < p for p in ps):
+            ps.append(c)
+            location = location -1 if location else len(ps) - 1
         else:
-            executed.append(target_priority)
-    
-    for idx, process in enumerate(executed):
-        if location == process[0]:
-            return idx + 1
+            if not location:
+                return order
+            order += 1
+            location -= 1
