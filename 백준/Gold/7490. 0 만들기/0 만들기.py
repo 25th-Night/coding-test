@@ -1,34 +1,16 @@
-from copy import deepcopy
+from itertools import product
 
-def recursive(ops, arr, n):
-    if len(arr) == n:
-        ops.append(deepcopy(arr))
-        return
-    
-    arr.append(" ")
-    recursive(ops, arr, n)
-    arr.pop()
-    
-    arr.append("+")
-    recursive(ops, arr, n)
-    arr.pop()
-    
-    arr.append("-")
-    recursive(ops, arr, n)
-    arr.pop()
-    
 T = int(input())
 
 for _ in range(T):
-    ops = []
     n = int(input())
-    recursive(ops, [], n-1)
+    ops_list = list(product((" ", "+", "-"), repeat=n-1))
     nums = list(map(str, range(1, n+1)))
     
-    for op in ops:
+    for ops in ops_list:
         s = ""
-        for i in range(n-1):
-            s += nums[i] + op[i]
+        for n, o in zip(nums[:-1], ops):
+            s += n+o
         s += nums[-1]
         
         if eval(s.replace(" ", "")) == 0:
