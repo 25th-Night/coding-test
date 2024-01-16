@@ -19,7 +19,6 @@ def in_order(node, level):
 n = int(input())
 tree = {i:Node(i,-1,-1) for i in range(1, n+1)}
 level_min, level_max = [n] * (n+1), [0] * (n+1)
-root = -1
 x = 1
 level_depth = 1
     
@@ -35,12 +34,12 @@ for _ in range(n):
 for i in range(1, n + 1):
     if tree[i].parent == -1:
         root = i
+        break
 
 in_order(tree[root], 1)
 
-result_level = 1
-result_width = level_max[1] - level_min[1] + 1
-for i in range(2, level_depth + 1):
+result_width = 0
+for i in range(1, level_depth + 1):
     width = level_max[i] - level_min[i] + 1
     if result_width < width:
         result_level = i
