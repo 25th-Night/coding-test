@@ -1,59 +1,55 @@
 import sys
-import heapq
+from heapq import heappop, heappush
 from collections import deque
 
-INF = sys.maxsize
+input = sys.stdin.readline
+
+def dijkstra(graph, dropped, start):
+    dist = [1e9 for _ in range(n)]
+    dist[start] = 0
+    heap = [(0, start)]
+
+    while heap:
+        cd, cn = heappop(heap)
+
+        if dist[cn] >= cd:
+            for nd, nn in graph[cn]:
+                d = cd + nd
+                if dist[nn] > d and not dropped[cn][nn]:
+                    dist[nn] = d
+                    heappush(heap, (d, nn))
+
+    return dist
+
+def bfs(rev_g, dropped, start, end):
+    queue = deque()
+    queue.append(end)
+
+    while queue:
+        cn = queue.popleft()
+
+        if cn != start:
+            for pd, pn in rev_g[cn]:
+                if dist[pn] + pd == dist[cn] and not dropped[pn][cn]:
+                    dropped[pn][cn] = True
+                    queue.append(pn)
 
 while True:
-    n, m = map(int, sys.stdin.readline().rstrip().split())
-    if n == 0 and m == 0: break
-    nodes = [[] for _ in range(n)]
-    nodes_inv = [[] for _ in range(n)]
-    edges = [[False for _ in range(n)] for _ in range(n)]
-    s, d = map(int, sys.stdin.readline().rstrip().split())
+    n, m = map(int, input().split())
+    if not n:
+        break
+    graph = [[] for _ in range(n)]
+    rev_g = [[] for _ in range(n)]
+    dropped = [[False] * n for _ in range(n)]
+    start, end = map(int, input().split())
 
     for _ in range(m):
-        u, v, p = map(int, sys.stdin.readline().rstrip().split())
-        nodes[u].append([v, p])
-        nodes_inv[v].append([u, p])
+        u, v, p = map(int, input().split())
+        graph[u].append((p, v))
+        rev_g[v].append((p, u))
 
-    def Dijstra():
-        distances = [INF for _ in range(n)]
-        distances[s] = 0
+    dist = dijkstra(graph, dropped, start)
+    bfs(rev_g, dropped, start, end)
+    dist = dijkstra(graph, dropped, start)
 
-        pq = []
-        heapq.heappush(pq, [0, s])
-
-        while pq:
-            cur_cost, cur_node = heapq.heappop(pq)
-
-            if distances[cur_node] < cur_cost: continue
-
-            for next_node, next_cost in nodes[cur_node]:
-                if edges[cur_node][next_node]: continue
-                if distances[next_node] > next_cost+cur_cost:
-                    distances[next_node] = next_cost+cur_cost
-                    heapq.heappush(pq, [next_cost+cur_cost, next_node])
-
-        return distances
-
-    def BFS():
-        queue = deque()
-        queue.append(d)
-
-        while queue:
-            cur_node = queue.popleft()
-
-            if cur_node == s: continue
-
-            for post_node, post_cost in nodes_inv[cur_node]:
-                if distances[post_node] + post_cost == distances[cur_node] and not edges[post_node][cur_node]:
-                    # cur_node로 향하는 이전 간선 비용을 사용했을 때 distances에 기록된 비용이라면 곧 최단 경로에 사용했다는 뜻이다.
-                    edges[post_node][cur_node] = True
-                    queue.append(post_node)
-
-    distances = Dijstra()
-    BFS()
-    distances = Dijstra()
-    if distances[d] == INF: print(-1)
-    else: print(distances[d])
+    print(dist[end] if dist[end] != 1e9 else -1)
