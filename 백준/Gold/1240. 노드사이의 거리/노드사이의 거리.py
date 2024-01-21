@@ -1,16 +1,16 @@
-import sys
-from collections import defaultdict
+from collections import defaultdict, deque
 
-sys.setrecursionlimit(10000)
-
-def dfs(graph, visited, s):
+def bfs(graph, visited, s, e):
+    q = deque([(s, 0)])
     visited[s] = True
-    for n in graph[s]:
-        if not visited[n]:
-            visited[n] = True
-            dist[n] = dist[s] + graph[s][n]
-            dfs(graph, visited, n)
-
+    while q:
+        cn, cd = q.popleft()
+        if cn == e:
+            return cd
+        for nn in graph[cn]:
+            if not visited[nn]:
+                visited[nn] = True
+                q.append((nn, cd + graph[cn][nn]))
 
 N, M = map(int, input().split())
 graph = defaultdict(dict)
@@ -23,6 +23,4 @@ result = [0]* M
 for i in range(M):
     s, e = map(int, input().split())
     visited= [False] * (N+1)
-    dist = [0] * (N+1)
-    dfs(graph, visited, s)
-    print(dist[e])
+    print(bfs(graph, visited, s, e))
