@@ -1,13 +1,11 @@
-n = int(input())
+import sys
 
-array = []
-for _ in range(n):
-    array.append(int(input()))
+input = sys.stdin.readline
 
-array.sort()
-
-result = 0
-for i in range(1, len(array) + 1):
-    result += abs(i - array[i - 1])
-    
-print(result)
+N = int(input())
+arr = [0] + [int(input()) for _ in range(N)]
+arr.sort()
+cnt = 0
+for i, x in enumerate(arr):
+    cnt += abs(i-x)
+print(cnt)
