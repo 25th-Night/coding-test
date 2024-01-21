@@ -1,16 +1,14 @@
-T = int(input())
-for _ in range(T):
-    N = int(input())
-    arr = sorted(map(int, input().split()), reverse=True)
+import sys
 
-    ts = []
-    for i, n in enumerate(arr):
-        if not i%2:
-            ts.insert(0, n)
-        else:
-            ts.append(n)
-    
-    result = 0
-    for i in range(len(ts)-1):
-        result = max(result, abs(ts[i]-ts[i+1]))
-    print(result)
+input = sys.stdin.readline
+
+for test_case in range(int(input())):
+    n = int(input())
+    arr = list(map(int, input().split()))
+    arr.sort()
+
+    max_diff = 0
+    for i in range(n - 2):
+        diff = abs(arr[i] - arr[i + 2])
+        max_diff = max(max_diff, diff)
+    print(max_diff)
