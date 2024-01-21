@@ -17,10 +17,10 @@ def bfs(maps, sr, sc, T):
 N = int(input())
 maps = [list(input()) for _ in range(N)]
 maps2 = deepcopy(maps)
-for i in range(len(maps2)):
-    for j in range(len(maps2[0])):
-        if maps2[i][j] == "G":
-            maps2[i][j] = "R"
+for r in range(len(maps2)):
+    for c in range(len(maps2[0])):
+        if maps2[r][c] == "G":
+            maps2[r][c] = "R"
 
 result1, result2 = 0, 0
 for r in range(N):
