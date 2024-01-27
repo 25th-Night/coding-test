@@ -1,21 +1,19 @@
 from itertools import permutations
 
 def check_prime(num):
-    if num // 2 == 1:
-        return 1
-    elif not num // 2 or not num % 2:
-        return 0
+    if num < 4:
+        return num // 2
     else:
-        for n in range(3, int(num**0.5)+1):
-            if not num % n:
+        for i in range(2, int(num**0.5) + 1):
+            if num % i == 0:
                 return 0
-        return 1
+    return 1
 
 def solution(numbers):
-    cnt = 0
-    nums = set()
-    for i in range(1, len(numbers)+1):
-        nums |= set(map(lambda x: int("".join(x)), permutations(numbers, i)))
-    for num in nums:
-        cnt += check_prime(num)
-    return cnt
+    result = 0
+    for i in range(1, len(numbers) + 1):
+        for x in set(permutations(list(numbers), i)):
+            if x[0] != "0":
+                num = int("".join(x))
+                result += check_prime(num)
+    return result
