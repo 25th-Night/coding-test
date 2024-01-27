@@ -1,16 +1,11 @@
 def solution(answers):
-    check1 = [1, 2, 3, 4, 5]
-    check2 = [2, 1, 2, 3, 2, 4, 2, 5]
-    check3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    a1 = [1, 2, 3, 4, 5]
+    a2 = [2, 1, 2, 3, 2, 4, 2, 5]
+    a3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
     
-    correct1 = [x for idx, x in enumerate(answers) if x == check1[idx%len(check1)] ]    
-    correct2 = [x for idx, x in enumerate(answers) if x == check2[idx%len(check2)] ]    
-    correct3 = [x for idx, x in enumerate(answers) if x == check3[idx%len(check3)] ]
-    answers_list = [len(correct1), len(correct2), len(correct3)]
+    b1 = sum(1 for i, a in enumerate(answers) if a1[i%5] == a)
+    b2 = sum(1 for i, a in enumerate(answers) if a2[i%8] == a)
+    b3 = sum(1 for i, a in enumerate(answers) if a3[i%10] == a)
     
-    max_ = max(answers_list)
-    result = []
-    for i, c in enumerate([len(correct1), len(correct2), len(correct3)], start=1):
-        if c == max_:
-            result.append(i)
-    return result
+    result = map(lambda x: x[0], (filter(lambda x: x[1] == max(b1, b2, b3), enumerate([b1, b2, b3], start=1))))
+    return list(result)
