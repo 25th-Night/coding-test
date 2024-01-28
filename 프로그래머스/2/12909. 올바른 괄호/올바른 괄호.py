@@ -1,14 +1,10 @@
-from collections import deque
-
 def solution(s):
-    q = deque(s)
-    s = []
-    while q:
-        if (not s or (s and s[-1] == "(")) and q[0] == "(":
-            s.append(q.popleft())
-        elif s and s[-1] == "(" and q[0] == ")":
-            s.pop()
-            q.popleft()
+    stack = []
+    for c in s:
+        if (not stack or (stack and stack[-1] == "(")) and c == "(":
+            stack.append(c)
+        elif stack and stack[-1] == "(" and c == ")":
+            stack.pop()
         else:
             return False
-    return True if not s else False
+    return len(stack) == 0
