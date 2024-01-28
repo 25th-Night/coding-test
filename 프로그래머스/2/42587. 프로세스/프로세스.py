@@ -1,15 +1,17 @@
 from collections import deque
 
 def solution(priorities, location):
-    ps = deque(priorities)
-    order = 1
+    
+    priorities = deque(priorities)
+    
+    order = 0
     while True:
-        c = ps.popleft()
-        if any(c < p for p in ps):
-            ps.append(c)
-            location = location -1 if location else len(ps) - 1
+        now = priorities.popleft()
+        if any(now < priority for priority in priorities):
+            priorities.append(now)
+            location = location - 1 if location else len(priorities) - 1
         else:
+            order += 1
             if not location:
                 return order
-            order += 1
             location -= 1
