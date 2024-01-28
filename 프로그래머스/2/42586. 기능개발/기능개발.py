@@ -1,13 +1,8 @@
-from collections import deque
-
 def solution(progresses, speeds):
-    ds = deque([-((p-100)//s) for p, s in zip(progresses, speeds)])
-    answer = []
-    while ds:
-        current = ds.popleft()
-        cnt = 1
-        while ds and current >= ds[0]:
-            ds.popleft()
-            cnt += 1
-        answer.append(cnt)
-    return answer
+    q=[]
+    for p, s in zip(progresses, speeds):
+        if len(q)==0 or q[-1][0]<-((p-100)//s):
+            q.append([-((p-100)//s),1])
+        else:
+            q[-1][1]+=1
+    return [cnt for day, cnt in q]
